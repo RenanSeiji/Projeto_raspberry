@@ -1,0 +1,545 @@
+[
+    {
+        "id": "15ecc8557c9b58ab",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2ef9bf45e54c0388",
+        "type": "debug",
+        "z": "15ecc8557c9b58ab",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "4e5e0327b5442925",
+        "type": "inject",
+        "z": "15ecc8557c9b58ab",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "tempo",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 220,
+        "wires": [
+            [
+                "2fe6fdf33fd1e920"
+            ]
+        ]
+    },
+    {
+        "id": "45a45404e7599641",
+        "type": "function",
+        "z": "15ecc8557c9b58ab",
+        "name": "function 8",
+        "func": "let sumham = 0\nlet sumcafe = 0\nlet sumbat = 0\nlet lucro = 0\nfor (let index = 1; index <= Object.keys(msg.payload).length; index++) {\n    let pivot = msg.payload[index];\n    sumham = parseInt(pivot.qtdhamburger) + sumham\n    sumcafe = parseInt(pivot.qtdcafe) + sumcafe\n    sumbat = parseInt(pivot.qtdbatata) + sumbat\n    lucro = lucro + parseInt(pivot.precototal)\n}\nnode.warn(sumham);\nnode.warn(sumcafe);\nnode.warn(sumbat);\nnode.warn(lucro);\nlet teste = {\n    \"sumham\": sumham,\n    \"sumcafe\": sumcafe,\n    \"sumbat\": sumbat,\n    \"lucro\": lucro\n}\nvar m = {\n    \"series\": [\"Hamburger\", \"Cafe\", \"Batata\"],\n    \"data\": [[teste.sumham], [teste.sumcafe], [teste.sumbat]],\n    \"labels\": [\"pedidos\"]\n};\nreturn { payload: [m] };",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 120,
+        "wires": [
+            [
+                "2ef9bf45e54c0388",
+                "029164dcb254f1df"
+            ]
+        ]
+    },
+    {
+        "id": "439195d714933d51",
+        "type": "function",
+        "z": "15ecc8557c9b58ab",
+        "name": "LastHam",
+        "func": "let tamanho_do_brother = Object.keys(msg.payload).length\nlet pivot = msg.payload[tamanho_do_brother]\n\nlet teste = {\n    \"lastHam\": pivot.qtdhamburger,\n    \"lastCafe\": pivot.qtdcafe,\n    \"lastBatata\": pivot.qtdbatata,\n}\nvar m = {\n    \"series\": [\"Hamburger\", \"Cafe\", \"Batata\"],\n    \"data\": [[teste.lastHam], [teste.lastCafe], [teste.lastBatata]],\n    \"labels\": [msg.tempo]\n};\nmsg.payload = teste.lastHam;\nmsg.topic = \"Hamburguer\";\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 260,
+        "wires": [
+            [
+                "95b2dd929412b1f9"
+            ]
+        ]
+    },
+    {
+        "id": "0c405efaa3e0cebb",
+        "type": "function",
+        "z": "15ecc8557c9b58ab",
+        "name": "lastCafe",
+        "func": "let tamanho_do_brother = Object.keys(msg.payload).length\nlet pivot = msg.payload[tamanho_do_brother]\n\nlet teste = {\n    \"lastHam\": pivot.qtdhamburger,\n    \"lastCafe\": pivot.qtdcafe,\n    \"lastBatata\": pivot.qtdbatata,\n}\nvar m = {\n    \"series\": [\"Hamburger\", \"Cafe\", \"Batata\"],\n    \"data\": [[teste.lastHam], [teste.lastCafe], [teste.lastBatata]],\n    \"labels\": [msg.tempo]\n};\n\nmsg.payload = teste.lastCafe;\nmsg.topic = \"Cafe\";\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 220,
+        "wires": [
+            [
+                "95b2dd929412b1f9"
+            ]
+        ]
+    },
+    {
+        "id": "29e69890406b8519",
+        "type": "function",
+        "z": "15ecc8557c9b58ab",
+        "name": "LastHam",
+        "func": "let tamanho_do_brother = Object.keys(msg.payload).length\nlet pivot = msg.payload[tamanho_do_brother]\n\nlet teste = {\n    \"lastHam\": pivot.qtdhamburger,\n    \"lastCafe\": pivot.qtdcafe,\n    \"lastBatata\": pivot.qtdbatata,\n}\nvar m = {\n    \"series\": [\"Hamburger\", \"Cafe\", \"Batata\"],\n    \"data\": [[teste.lastHam], [teste.lastCafe], [teste.lastBatata]],\n    \"labels\": [msg.tempo]\n};\nmsg.payload = teste.lastBatata;\nmsg.topic = \"Batata\";\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 300,
+        "wires": [
+            [
+                "95b2dd929412b1f9"
+            ]
+        ]
+    },
+    {
+        "id": "28359ea0da374f7b",
+        "type": "function",
+        "z": "15ecc8557c9b58ab",
+        "name": "Lucro",
+        "func": "let sumham = 0\nlet sumcafe = 0\nlet sumbat = 0\nlet lucro = 0\nfor (let index = 1; index <= Object.keys(msg.payload).length; index++) {\n    let pivot = msg.payload[index];\n    sumham = parseInt(pivot.qtdhamburger) + sumham\n    sumcafe = parseInt(pivot.qtdcafe) + sumcafe\n    sumbat = parseInt(pivot.qtdbatata) + sumbat\n    lucro = lucro + parseInt(pivot.precototal)\n}\nnode.warn(sumham);\nnode.warn(sumcafe);\nnode.warn(sumbat);\nnode.warn(lucro);\nlet teste = {\n    \"sumham\": sumham,\n    \"sumcafe\": sumcafe,\n    \"sumbat\": sumbat,\n    \"lucro\": lucro\n}\nmsg.payload = teste.lucro;\nmsg.topic = \"lucro\";\nmsg.payload.ubidotsDeviceLabel = \"Machine_1\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 420,
+        "wires": [
+            [
+                "de030172c59f3c1f"
+            ]
+        ]
+    },
+    {
+        "id": "a9ce0a113c36c7c6",
+        "type": "function",
+        "z": "15ecc8557c9b58ab",
+        "name": "Preco do pedido",
+        "func": "let tamanho_do_brother = Object.keys(msg.payload).length\nlet pivot = msg.payload[tamanho_do_brother]\n\nlet teste = {\n    \"lucro\":pivot.precototal\n}\nmsg.payload = teste.lucro;\nmsg.topic = \"lucro\";\nmsg.payload.ubidotsDeviceLabel = \"Machine_1\";\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 380,
+        "wires": [
+            [
+                "1b66a893c055c540"
+            ]
+        ]
+    },
+    {
+        "id": "ae022e60039e7fa2",
+        "type": "function",
+        "z": "15ecc8557c9b58ab",
+        "name": "function 9",
+        "func": "let sumham = 0\nlet sumcafe = 0\nlet sumbat = 0\nlet lucro = 0\nfor (let index = 1; index <= Object.keys(msg.payload).length; index++) {\n    let pivot = msg.payload[index];\n    sumham = parseInt(pivot.qtdhamburger) + sumham\n    sumcafe = parseInt(pivot.qtdcafe) + sumcafe\n    sumbat = parseInt(pivot.qtdbatata) + sumbat\n    lucro = lucro + parseInt(pivot.precototal)\n}\nnode.warn(sumham);\nnode.warn(sumcafe);\nnode.warn(sumbat);\nnode.warn(lucro);\nmsg.payload = {\n    \"sumham\": sumham,\n    \"sumcafe\": sumcafe,\n    \"sumbat\": sumbat,\n    \"lucro\": lucro\n}\nmsg.payload.ubidotsDeviceLabel = \"Machine_1\";\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 60,
+        "wires": [
+            [
+                "8453ca9fd622582c"
+            ]
+        ]
+    },
+    {
+        "id": "185ebbc5b40fa0df",
+        "type": "function",
+        "z": "15ecc8557c9b58ab",
+        "name": "function 10",
+        "func": "let tamanho_do_brother = Object.keys(msg.payload).length\nlet pivot = msg.payload[tamanho_do_brother]\n\nmsg.payload = {\n    \"lastHam\": pivot.qtdhamburger,\n    \"lastCafe\": pivot.qtdcafe,\n    \"lastBatata\": pivot.qtdbatata,\n    \"lastlucro\": pivot.lucro\n}\nmsg.payload.ubidotsDeviceLabel = \"Machine_1\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 20,
+        "wires": [
+            [
+                "8453ca9fd622582c"
+            ]
+        ]
+    },
+    {
+        "id": "8453ca9fd622582c",
+        "type": "ubidots_out",
+        "z": "15ecc8557c9b58ab",
+        "name": "",
+        "token": "BBFF-HO4mMInYwYGqihtLxeFsAEiAMicbxV",
+        "label_device": "",
+        "device_label": "Machine_1",
+        "tier": "business",
+        "tls_checkbox": false,
+        "x": 830,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "87abe53c6fb62305",
+        "type": "ui_button",
+        "z": "15ecc8557c9b58ab",
+        "name": "",
+        "group": "4c5fa09fca0f72af",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Limpar grafico",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "[]",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 600,
+        "y": 160,
+        "wires": [
+            [
+                "029164dcb254f1df",
+                "95b2dd929412b1f9"
+            ]
+        ]
+    },
+    {
+        "id": "76b7575d3aa7a487",
+        "type": "ui_button",
+        "z": "15ecc8557c9b58ab",
+        "name": "",
+        "group": "bf0e6e70a0830fd3",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Limpar grafico",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "[]",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 600,
+        "y": 500,
+        "wires": [
+            [
+                "de030172c59f3c1f",
+                "1b66a893c055c540"
+            ]
+        ]
+    },
+    {
+        "id": "dc097bc2fa0c8046",
+        "type": "ui_button",
+        "z": "15ecc8557c9b58ab",
+        "name": "",
+        "group": "4c5fa09fca0f72af",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Botao para teste",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 120,
+        "y": 40,
+        "wires": [
+            [
+                "2fe6fdf33fd1e920"
+            ]
+        ]
+    },
+    {
+        "id": "de030172c59f3c1f",
+        "type": "ui_gauge",
+        "z": "15ecc8557c9b58ab",
+        "name": "",
+        "group": "bf0e6e70a0830fd3",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Meta",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "10000",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 770,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "029164dcb254f1df",
+        "type": "ui_chart",
+        "z": "15ecc8557c9b58ab",
+        "name": "",
+        "group": "4c5fa09fca0f72af",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Soma_Pedidos",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "No Data",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 820,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "95b2dd929412b1f9",
+        "type": "ui_chart",
+        "z": "15ecc8557c9b58ab",
+        "name": "",
+        "group": "4c5fa09fca0f72af",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Pedidos",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "",
+        "removeOlder": "30",
+        "removeOlderPoints": "100",
+        "removeOlderUnit": "1",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": true,
+        "colors": [
+            "#1f77b4",
+            "#26ec22",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 780,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1b66a893c055c540",
+        "type": "ui_chart",
+        "z": "15ecc8557c9b58ab",
+        "name": "",
+        "group": "bf0e6e70a0830fd3",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Preco_dos_Pedidos",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": true,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 820,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2fe6fdf33fd1e920",
+        "type": "http request",
+        "z": "15ecc8557c9b58ab",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://localhost:4000/pedidos",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "credentials": {
+            "user": "",
+            "password": ""
+        },
+        "x": 270,
+        "y": 220,
+        "wires": [
+            [
+                "185ebbc5b40fa0df",
+                "ae022e60039e7fa2",
+                "45a45404e7599641",
+                "0c405efaa3e0cebb",
+                "439195d714933d51",
+                "29e69890406b8519",
+                "a9ce0a113c36c7c6",
+                "28359ea0da374f7b"
+            ]
+        ]
+    },
+    {
+        "id": "4c5fa09fca0f72af",
+        "type": "ui_group",
+        "name": "Pedidos",
+        "tab": "3485903b2c4390e5",
+        "order": 1,
+        "disp": true,
+        "width": "13",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "bf0e6e70a0830fd3",
+        "type": "ui_group",
+        "name": "Lucro",
+        "tab": "e542a9ca6063a3db",
+        "order": 2,
+        "disp": true,
+        "width": "13",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3485903b2c4390e5",
+        "type": "ui_tab",
+        "name": "Grafico_Geral",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e542a9ca6063a3db",
+        "type": "ui_tab",
+        "name": "Lucro",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
